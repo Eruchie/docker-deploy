@@ -52,9 +52,10 @@ _____
 
     - `sudo docker start 721958fed728`
 
-    j. To access a container ID 721958fed728 run the bekow command; bash tells the container to use the current CLI
+    j. To access a container ID 721958fed728 run the bekow command and `exit` to exit the container; bash tells the container to use the current CLI
 
     - `sudo docker exec -it 721958fed728 bash`
+    - `exit`
 
     k. To delete/remove a container ID 721958fed728
 
@@ -71,3 +72,9 @@ _____
     n. To sab=ve changes to a container and giving it a new container name e.g. test
 
     - `sudo docker commit 721958fed728 test`
+
+1. Installing Docker
+
+    a. Update, inatsll and confirm the Docker version and if docker is working:
+
+    - `sudo apt-get update`
