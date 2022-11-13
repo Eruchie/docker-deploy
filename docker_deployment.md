@@ -65,7 +65,7 @@ _____
 
     - `sudo docker rmi`
 
-    m. TO forcefully remove a container without stopping it:
+    m. To forcefully remove a container without stopping it:
 
     - `sudo docker rm -f`
 
@@ -73,8 +73,65 @@ _____
 
     - `sudo docker commit 721958fed728 test`
 
-1. Installing Docker
+1. Create a new container and install Apache: 
 
-    a. Update, inatsll and confirm the Docker version and if docker is working:
+    a. Run the ubuntu image:
 
+    - `sudo docker run -it -d ubuntu`
+
+    b. Confirm running container ID:
+
+    - `sudo docker ps`
+
+    c. Connect to the container via ID
+
+    - `sudo docker exec -it babea267a082 bash`
+
+    d. In the container, run the necessary updates and install apache
+    
     - `sudo apt-get update`
+
+    - `sudo apt-get install apache2`
+
+    - `service apache2 status` 
+
+    e. Start Apache
+
+    - `service apache2 start`
+    - `exit`
+
+    f. Get the container ID and save the container as an image; use the naming convention `aufora2/apache` required to upload in docker hub.
+
+    - `sudo docker ps`
+    - `sudo docker commit babea267a082 aufora2/apache`
+
+    g. Run apache to map host port 82 to container port 80 
+
+    - `sudo docker run -it -p 82:80 -d aufora2/apache`
+
+    h. Get the container ID by `sudo docker ps`, connect to the container and start apache
+
+    - `sudo docker exec -it 92375a8f04ab bash`
+    - `service apache2 start`
+
+    i. Test the web page on port 82 using a browser:
+
+    - `http://18.222.29.241:82/`
+
+    j. Exit, stop the container and push the image, `aufora2/apache` to docker hub
+
+    - `exit`
+    - `sudo docker stop 92375a8f04ab`
+    - `sudo docker login`
+    - `sudo docker push aufora2/apache`
+
+1. Docker command structure
+
+    a. The following consists of the docker command structure:
+
+    - FROM: from image source e.g. ubuntu.
+    - ADD: Specify location in the container where web files should be kept.
+    - RUN: To run updates e.g. apt-get update, apt-get -y install apache2
+    - CMD: This command will get skipped if an argument is specified.
+    - ENTRYPOINT: This command will NOT get skipped even if an argument is specified.
+    - ENV: Specify the enviroment variables in the container
