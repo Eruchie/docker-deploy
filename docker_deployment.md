@@ -125,13 +125,57 @@ _____
     - `sudo docker login`
     - `sudo docker push aufora2/apache`
 
-1. Docker command structure
+1. DockerFile command structure
 
-    a. The following consists of the docker command structure:
+    a. The following consists of the dockerfile command structure:
 
-    - FROM: from image source e.g. ubuntu.
-    - ADD: Specify location in the container where web files should be kept.
-    - RUN: To run updates e.g. apt-get update, apt-get -y install apache2
-    - CMD: This command will get skipped if an argument is specified.
-    - ENTRYPOINT: This command will NOT get skipped even if an argument is specified.
-    - ENV: Specify the enviroment variables in the container
+    - `FROM`: from image source e.g. ubuntu.
+    - `ADD`: Specify location in the container where web files should be kept.
+    - `RUN`: To run updates e.g. apt-get update, apt-get -y install apache2
+    - `CMD`: This command will get skipped if an argument is specified.
+    - `ENTRYPOINT`: This command will NOT get skipped even if an argument is specified.
+    - `ENV`: Specify the enviroment variables in the container
+
+  1. Create an image/container using Dockerfile
+
+     a. Create a directory where Docker and html files will be kept and change to the directory 
+   - `mkdir dockerfile && cd dockerfile && touch Dockerfile`
+   - `nano DOckerfile`
+
+     b. Paste the following shell script and save.
+
+     ```
+        FROM ubuntu
+        RUN apt-get update
+        RUN apt-get -y install apache2
+        #the . means files in the pwd
+        ADD . /var/www/html 
+        #run appache automatically in the background
+        ENTRYPOINT apachectl -D FOREGROUND 
+        #enviromental variable with name mervintec
+        ENV name mervintec 
+        sudo nano web.html
+     ```
+     c. To build the image file, run the following command in nthe directory containing the files; in our case the dir is `dockerfile`
+
+     - `sudo docker build . -t new_dockerfile`
+
+     d. Launch the container
+
+     - `sudo docker run -it -p 84:80 -d new_dockerfile`
+
+     e. Copy the new container ID
+
+     - `sudo docker ps`
+
+     f. Connect to the new container and navigate into `/var/www/html` to check the files
+
+     - `sudo docker exec -it e6947d0a4e30 bash`
+     - `cd /var/www/html`
+     - `ls`
+
+     g. In the `pwd`, `echo` name; this should give the name of the enviromental variable; `mervintec` in my case.
+
+     - `echo $name`
+
+    
